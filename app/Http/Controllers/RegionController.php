@@ -88,7 +88,7 @@ class RegionController extends Controller
 
         if($organization)
         {
-            return $this->errors(errors: "Region have organizations");
+            return $this->errors(errors: ["region" => "Region have organizations"]);
         }
 
         $region->delete();

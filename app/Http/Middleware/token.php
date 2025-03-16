@@ -22,14 +22,14 @@ class token
 
         if(!$token)
         {
-            return $this->errors(errors: "Login failed", code: 401);
+            return $this->errors(errors: ["error" => "login failed"], code: 401);
         }
 
         $user = User::where('token', $token)->first();
 
         if(!$user)
         {
-            return $this->errors(errors: "Login failed", code: 401);
+            return $this->errors(errors: ["error" => "login failed"], code: 401);
         }
 
         auth()->login($user);

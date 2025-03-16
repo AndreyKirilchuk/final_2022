@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Problem;
 use App\Models\Question;
 use App\Models\Region;
 use Illuminate\Http\Request;
@@ -84,11 +85,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $question = Question::where('category_id', $category->id)->first();
+        $question = Problem::where('category_id', $category->id)->first();
 
         if($question)
         {
-            return $this->errors(errors: "Category have questions");
+            return $this->errors(errors: ["category" => "Category have questions"]);
         }
 
         $category->delete();

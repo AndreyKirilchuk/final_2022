@@ -14,27 +14,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(\App\Http\Middleware\token::class)->group(function (){
     Route::middleware(\App\Http\Middleware\admin::class)->group(function (){
-        Route::get('/regions', [RegionController::class, 'index']);
         Route::post('/regions', [RegionController::class, 'store']);
         Route::put('/regions/{region}', [RegionController::class, 'update']);
         Route::delete('/regions/{region}', [RegionController::class, 'destroy']);
 
-        Route::get('/regions/{region}/organizations', [OrganizationController::class, 'index']);
         Route::post('/regions/{region}/organizations', [OrganizationController::class, 'store']);
         Route::put('/regions/{region}/organizations/{organization}', [OrganizationController::class, 'update']);
         Route::delete('/regions/{region}/organizations/{organization}', [OrganizationController::class, 'destroy']);
 
-        Route::get('/regions/{region}/organizations/{organization}/consultants', [ConsultantController::class, 'index']);
         Route::post('/regions/{region}/organizations/{organization}/consultants', [ConsultantController::class, 'store']);
         Route::put('/regions/{region}/organizations/{organization}/consultants/{user}', [ConsultantController::class, 'update']);
         Route::delete('/regions/{region}/organizations/{organization}/consultants/{user}', [ConsultantController::class, 'destroy']);
 
-        Route::get('/categories', [CategoryController::class, 'index']);
         Route::post('/categories', [CategoryController::class, 'store']);
         Route::put('/categories/{category}', [CategoryController::class, 'update']);
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
 
-        Route::get('/categories/{category}/problems', [ProblemController::class, 'index']);
         Route::post('/categories/{category}/problems', [ProblemController::class, 'store']);
         Route::put('/categories/{category}/problems/{problem}', [ProblemController::class, 'update']);
         Route::delete('/categories/{category}/problems/{problem}', [ProblemController::class, 'destroy']);
@@ -50,3 +45,8 @@ Route::middleware(\App\Http\Middleware\token::class)->group(function (){
 Route::post('/consultations', [ApplicationController::class, 'store']);
 Route::patch('/consultations/{application}', [ApplicationController::class, 'update']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/regions', [RegionController::class, 'index']);
+Route::get('/regions/{region}/organizations', [OrganizationController::class, 'index']);
+Route::get('/regions/{region}/organizations/{organization}/consultants', [ConsultantController::class, 'index']);
+Route::get('/categories/{category}/problems', [ProblemController::class, 'index']);

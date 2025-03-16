@@ -9,6 +9,7 @@ use App\Traits\ResponseTrait;
 
 class admin
 {
+    use ResponseTrait;
     /**
      * Handle an incoming request.
      *
@@ -20,7 +21,7 @@ class admin
 
         if($user->role !== "ADMIN")
         {
-            return $this->errors(errors: "Forbidden!", code: 403);
+            return $this->errors(errors: ["error" => "Forbidden!"], code: 403);
         }
 
         return $next($request);

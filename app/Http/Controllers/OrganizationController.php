@@ -91,7 +91,7 @@ class OrganizationController extends Controller
 
         if($consultans)
         {
-            return $this->errors(errors: "Organization have consultants");
+            return $this->errors(errors: ["organization" => "Organization have consultants"]);
         }
 
         $organization->delete();

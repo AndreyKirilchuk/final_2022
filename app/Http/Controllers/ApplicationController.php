@@ -10,6 +10,7 @@ use App\Models\Organization;
 use App\Models\Problem;
 use App\Models\Region;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -22,7 +23,25 @@ class ApplicationController extends Controller
     {
         $user = auth()->user();
 
+//        $query = Application::query()
+//        ->whereBetween('date', [Carbon::parse($request->dateFrom)->format('Y-m-d') ?? '9999-99-99', Carbon::parse($request->dateTo)->format('Y-m-d') ?? '9999-99-99']);
+
         $query = Application::query();
+
+        if($request->dateFrom)
+        {
+            $query->whereDate('created_at', '>=', Carbon::parse($request->dateFrom)->format('Y-m-d H:i:s'));
+        }
+
+        if($request->dateTo)
+        {
+            $query->whereDate('date', '<=', Carbon::parse($request->dateTo)->format('Y-m-d'));
+        }
+
+        if($request->region_id)
+        {
+            $query->where('region_id', $request->region_id);
+        }
 
         if($request->category_id)
         {
@@ -99,31 +118,31 @@ class ApplicationController extends Controller
 
         if($consultant->role !== "CONSULTANT")
         {
-            return $this->errors(errors: "Consultant not found");
+            return $this->errors(errors:["consultant" => "Consultant not found"] );
         }
 
-        if($consultant->region_id !== $request->region_id)
+        if($consultant->region_id != $request->region_id)
         {
-            return $this->errors(errors: "Bad region id");
+            return $this->errors(errors: ["region" => "Region not found"]);
         }
 
-        if($consultant->organization_id !== $request->organization_id)
+        if($consultant->organization_id != $request->organization_id)
         {
-            return $this->errors(errors: "Bad organization id");
+            return $this->errors(errors: ["organization" => "Organization not found"]);
         }
 
         $problem = Problem::find($request->problem_id);
 
-        if($problem->category_id !== $request->category_id)
+        if($problem->category_id != $request->category_id)
         {
-            return $this->errors(errors: "Bad category id");
+            return $this->errors(errors: ["category" => "Category not found"]);
         }
 
         $thisProblem = ConsultantProblems::where(["problem_id" => $request->problem_id, "user_id" => $request->consultant_id])->first();
 
         if(!$thisProblem)
         {
-            return $this->errors(errors: "This consultant dont working this problem");
+            return $this->errors(errors: ["problem" => "This consultant dont working this problem"]);
         }
 
         $data = $v->validated();
